@@ -7,5 +7,7 @@
 **/*.pickle
 **/*.pkl
 **/*.avi
+**/*.mp4
+**/*.txt
 
 !*/.gitkeep
