@@ -89,10 +89,22 @@ class DLC_tracking:
         plt.show()
         return None
 
-    def find_bbox_dlc(self):
+    def find_bbox_dlc(self, frame=-1):
         dict_bbox = {}
-        for index, row in self.df_data.iterrows():
-            ind_frame = int(row['frame'])
+        
+        
+        if type(frame) == list:
+            list_frames = frame
+        if (type(frame) == int) | (type(frame) == float):
+            if frame < 0:
+                list_frames = list(self.df_data['frame'])
+            if frame >= 0:
+                list_frames = [frame]
+        
+        for frame in list_frames:
+            
+            row = self.df_data[self.df_data['frame'] == frame]
+            ind_frame = int(frame)
             x_min = np.nanmin(row.filter(like='_x').values)
             x_max = np.nanmax(row.filter(like='_x').values)
             y_min = np.nanmin(row.filter(like='_y').values)
@@ -100,6 +112,7 @@ class DLC_tracking:
             w = x_max - x_min
             h = y_max - y_min
             dict_bbox[ind_frame] = [x_min, y_min, w, h]
+
 
         return dict_bbox
 
